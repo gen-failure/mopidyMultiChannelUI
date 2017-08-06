@@ -1,0 +1,35 @@
+<template>
+  <require from="./timer"></require>
+  <require from="./resources/value-converters/int-to-str"></require>
+  <require from="./resources/value-converters/int-to-rgb"></require>
+  <div>
+    <h2>${channel.name}</h2>
+    <div class="led">${channel.currentTrack.name}</div>
+    <div class="toolbar">
+      <button class="fa fa-backward fa-4x"></button>
+      <button class="fa fa-play-circle fa-4x" if.bind="!channel.isPlaying && (channel.tracks.length > 0)" click.trigger='channel.resume()'></button>
+      <button class="fa fa-pause-circle fa-4x" if.bind="channel.isPlaying" click.trigger="channel.pause()"></button>
+      <button class="fa fa-stop-circle fa-4x"></button>
+      <button class="fa fa-forward fa-4x"></button>
+      <button class="fa fa-plug fa-4x" if.bind="!channel.connected"></button>
+      <div class="led" style="float:left;margin-left:4px;margin-top:2px;width:300px;text-align:center;">${helpers.formatTime(channel.timePosition)}/${helpers.formatTime(channel.currentTrack.length)}</div>
+      <button class="fa fa-minus fa-4x" click.delegate="decreaseVolume()"></button>
+      <div class="led" style="margin-top:2px;float:left;text-align:center;width:141px;color:${channel.volume | intToRGB}">${channel.volume}%</div>
+      <button class="fa fa-plus fa-4x" click.delegate="increaseVolume()"></button>
+      <div class="pure-menu pure-menu-horizontal channel-menu">
+        <ul class="pure-menu-list">
+          <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            <a href="#" class="menu-header">Menu</a>
+            <ul class="pure-menu-children">
+              <li class="pure-menu-item"><a href="#" class="pure-menu-link">Media Library</a></li>
+              <li class="pure-menu-item"><a href="#" class="pure-menu-link">Playlists</a></li>
+              <li class="pure-menu-item"><a href="#" class="pure-menu-link">Streams</a></li>
+              <li class="pure-menu-item"><a href="#" class="pure-menu-link">Queue</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+   <input type="range" min=0 max.bind="channel.getCurrentTrackLength()" class="seeker" value.bind="channel.timePosition | intToStr" change.trigger="channel.updateSeek()" step=1000></input>
+ </div>
+</template>

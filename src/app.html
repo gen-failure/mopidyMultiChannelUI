@@ -1,0 +1,23 @@
+<template>
+  <require from="./media-library"></require>
+  <require from="./control-panel"></require>
+
+ <nav id="sidebar">
+   <button class="fa fa-home fa-4x" style="width:100%;"></button>
+    <h3>Available channels</h3>
+    <ul>
+      <li repeat.for="channel of channels">
+        <span>${channel.name} - </span>
+        <span if.bind="channel.isPaused">paused</span>
+        <span if.bind="!channel.connected">not connected</span>
+        <span if.bind="channel.isPlaying">playing</span>
+        <span if.bind="channel.isStopped">stopped</span>
+      </li>
+    </ul>
+ </nav>
+  <div id="content">
+    <div id="control-panels">
+      <control-panel repeat.for="channel of channels" channel.bind="channel"></control-panel>
+    </div>
+  </div>
+</template>

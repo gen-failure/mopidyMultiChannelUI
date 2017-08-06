@@ -1,0 +1,95 @@
+@font-face {
+  font-family: "ccalc";
+  src: url("../fonts/14LED.ttf");
+}
+
+body {
+  background-color:black;
+  color:#dfe;
+}
+
+#sidebar{
+  position: relative;
+  border-right:1px solid #dfe;
+  height:100vh;
+}
+
+#content {
+  padding-left:200px;
+}
+@media (min-width: 550px) { /*Skeletons default grid-activation width*/
+  #sidebar{
+    position: fixed;
+    max-width: 18%; /*Avoids overlapping*/
+    min-width:200px;
+    float:left;
+  }
+}
+
+control-panel {
+  display:block;
+  padding:12px;
+  padding-top:4px;
+}
+
+nav {
+  padding:4px;
+}
+
+button {
+  border: 1px solid #9999ff;
+  background-color:black;
+  color:#9999ff;
+}
+
+control-panel h2 {
+  padding-top:0px;
+  margin-top:0px;
+  margin-bottom:4px;
+}
+
+control-panel button {
+  display:block;
+  float:left;
+  margin:2px;
+}
+control-panel button:nth-child(1) {
+  margin-left:0px;
+}
+
+
+control-panel div.toolbar {
+  margin-top:4px;
+}
+
+div.led {
+  font-family: ccalc;
+  font-size:52px;
+  height:58px;
+  padding:4px;
+  color: #cc6699;
+  border: 1px #9999ff solid;
+  background-image:url('../images/lcd.png');
+
+  /* text-shadow: 0 0 1px #fff, 0 0 3px #fff, 0 0 5px #fff, 0 0 7px #ff00de, 0 0 12px #ff00de, 0 0 27px #ff00de, 0 0 25px #ff00de; */
+}
+
+.seeker {
+  width:100%;
+}
+
+.channel-menu {
+  border: 1px #cc6699 solid;
+  margin-left:2px;
+  float:right;
+  padding:18px;
+  width:auto;
+  margin-top:2px;
+}
+
+.channel-menu .menu-header {
+  font-size:26px;
+  font-weight:bold;
+  color:#cc6699;
+  text-decoration:none;
+}
