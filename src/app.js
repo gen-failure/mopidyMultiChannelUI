@@ -5,29 +5,10 @@ import {ControlPanel} from 'control-panel'
 export class App {
   constructor() {
 
-    //loadConfigFile first
-    var xhr = new XMLHttpRequest();
-
-    xhr.open('get', './src/config.json', true);
-
-    xhr.onreadystatechange = () => {
-		  var status;
-		  var data;
-		
-      if (xhr.readyState == 4) { // `DONE`
-			  if (xhr.status == 200) {
-				  this.config = JSON.parse(xhr.responseText);
-          console.log('config');
-          this.init()
-			  } else {
-          console.log(xhr);
-          alert('no config file');
-			  }
-		  }
-	  };
-
-    xhr.send();
-    
+    $.getJSON('./src/config.json',(d) => {
+      this.config = d;
+      this.init();
+    });
   }
 
   init() {
@@ -48,11 +29,9 @@ export class App {
         channel.tick();
       });
     },1000);
-
   }
 
   showMediaLibrary(i) {
-
     console.log(i);
     this.showChannels = false;
     this.showPlaylist = false;
