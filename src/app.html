@@ -3,7 +3,26 @@
   <require from="./control-panel"></require>
 
  <nav id="sidebar">
-   <button class="fa fa-home fa-4x" style="width:100%;"></button>
+   <button>
+     <div class="fa fa-home fa-2x"></div>
+     <div>Home</div>
+   </button>
+   <button>
+     <div class="fa fa-list-ol fa-2x"></div>
+     <div>Queue</div>
+   </button>
+   <button>
+     <div class="fa fa-music fa-2x"></div>
+     <div>Media</div>
+   </button>
+   <button>
+     <div class="fa fa-list fa-2x"></div>
+     <div>Playlists</div>
+   </button>
+   <button>
+     <div class="fa fa-spotify fa-2x"></div>
+     <div>Streams</div>
+   </button>
     <h3>Available channels</h3>
     <ul>
       <li repeat.for="channel of channels">
@@ -17,7 +36,7 @@
  </nav>
   <div id="content">
     <div id="control-panels">
-      <control-panel repeat.for="channel of channels" channel.bind="channel"></control-panel>
+      <control-panel repeat.for="channel of channels" channel.bind="channel" cnumber.bind="$index"></control-panel>
     </div>
   </div>
 </template>

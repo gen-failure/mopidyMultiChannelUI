@@ -3,6 +3,8 @@ import {Helpers} from './helpers';
 
 export class ControlPanel {
   @bindable channel;
+  @bindable cnumber;
+
   constructor() {
     this.volumeStep = 5;
     this.helpers = Helpers;
@@ -28,8 +30,5 @@ export class ControlPanel {
     
     this.channel.volume=nv;
     this.channel.setVolume();
-  }
-
-  resize() {
   }
 }
