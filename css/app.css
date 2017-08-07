@@ -9,13 +9,14 @@ body {
 }
 
 #sidebar{
-  position: relative;
   border-right:1px solid #dfe;
   height:100vh;
+  width:200px;
 }
 
 #content {
   padding-left:200px;
+  margin:auto;
 }
 @media (min-width: 550px) { /*Skeletons default grid-activation width*/
   #sidebar{
@@ -36,10 +37,31 @@ nav {
   padding:4px;
 }
 
+nav > button {
+  width:100%;
+  text-align:left;
+  font-size:24px;
+  margin-top:1px;
+  margin-bottom:1px;
+}
+
+nav > button > div:nth-child(1) {
+  float:left;
+}
+
+nav > button > div:nth-child(2) {
+  padding-top:12px;
+  padding-left:56px;
+}
+
 button {
   border: 1px solid #9999ff;
   background-color:black;
   color:#9999ff;
+}
+
+control-panel > div {
+  width:913px;
 }
 
 control-panel h2 {
@@ -52,6 +74,7 @@ control-panel button {
   display:block;
   float:left;
   margin:2px;
+  width:71px;
 }
 control-panel button:nth-child(1) {
   margin-left:0px;
@@ -59,7 +82,8 @@ control-panel button:nth-child(1) {
 
 
 control-panel div.toolbar {
-  margin-top:4px;
+  height:72px;
+  float:left;
 }
 
 div.led {
@@ -75,21 +99,5 @@ div.led {
 }
 
 .seeker {
-  width:100%;
-}
-
-.channel-menu {
-  border: 1px #cc6699 solid;
-  margin-left:2px;
-  float:right;
-  padding:18px;
   width:auto;
-  margin-top:2px;
-}
-
-.channel-menu .menu-header {
-  font-size:26px;
-  font-weight:bold;
-  color:#cc6699;
-  text-decoration:none;
 }
