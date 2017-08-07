@@ -20,8 +20,8 @@
     "source": "src/**/*.js"
   },
   "markupProcessor": {
-    "id": "minimum",
-    "displayName": "Minimal Minification",
+    "id": "none",
+    "displayName": "None",
     "fileExtension": ".html",
     "source": "src/**/*.html"
   },
