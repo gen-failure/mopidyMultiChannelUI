@@ -1,9 +1,10 @@
 export class IntToStrValueConverter {
-  toView(str) {
+  fromView(str) {
     return parseInt(str);
   }
 
-  fromView(int) {
+  toView(int) {
     return String(int);
+    console.log('converting');
   }
 }

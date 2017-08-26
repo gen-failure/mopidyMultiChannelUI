@@ -11,10 +11,13 @@
     "aurelia-animator-css": "^1.0.1",
     "aurelia-bootstrapper": "^2.1.0",
     "bluebird": "^3.4.1",
+    "jkeyboard": "^1.0.0",
     "jquery": "^3.2.1",
     "mopidy": "^0.5.0",
     "requirejs": "^2.3.2",
-    "text": "github:requirejs/text#latest"
+    "text": "github:requirejs/text#latest",
+    "virtual-keyboard": "^1.26.26",
+    "w2ui": "^1.4.3"
   },
   "peerDependencies": {},
   "devDependencies": {

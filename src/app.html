@@ -1,42 +1,50 @@
 <template>
   <require from="./media-library"></require>
   <require from="./control-panel"></require>
+  <require from="./queue"></require>
+  <require from="./playlists"></require>
+  <require from="./stream"></require>
 
+ <section id="main" style="z-index:99;position:absolute;width:100%;height:100%;top:0;left:0;background-color:black;">
+   
+ </section>
  <nav id="sidebar">
-   <button>
-     <div class="fa fa-home fa-2x"></div>
+   <button class="button2">
+     <div class="fa fa-home"></div>
      <div>Home</div>
    </button>
-   <button>
-     <div class="fa fa-list-ol fa-2x"></div>
+   <button class="button3 ${showChannels ? 'active' : ''}" click.trigger="showAllChannels()">
+     <div class="fa fa-tachometer"></div>
+     <div>Channels</div>
+   </button>
+   <button class="button3 ${showQueue ? 'active' : ''}" click.trigger="doShowQueue()">
+     <div class="fa fa-list-ol"></div>
      <div>Queue</div>
    </button>
-   <button>
-     <div class="fa fa-music fa-2x"></div>
+   <button class="button3 ${showLibrary ? 'active' : ''}" click.trigger="showMediaLibrary()">
+     <div class="fa fa-music"></div>
      <div>Media</div>
    </button>
-   <button>
-     <div class="fa fa-list fa-2x"></div>
+   <button class="button3 ${showPlaylists ? 'active' : ''}" click.trigger="showAllPlaylists()">
+     <div class="fa fa-list"></div>
      <div>Playlists</div>
    </button>
-   <button>
-     <div class="fa fa-spotify fa-2x"></div>
+   <button class="button3" class="${showStream ? 'active' : ''}" click.trigger="doShowStream()">
+     <div class="fa fa-spotify"></div>
      <div>Streams</div>
    </button>
-    <h3>Available channels</h3>
-    <ul>
-      <li repeat.for="channel of channels">
-        <span>${channel.name} - </span>
-        <span if.bind="channel.isPaused">paused</span>
-        <span if.bind="!channel.connected">not connected</span>
-        <span if.bind="channel.isPlaying">playing</span>
-        <span if.bind="channel.isStopped">stopped</span>
-      </li>
-    </ul>
+   <button repeat.for="channel of channels" class="channel-state-${channel.currentState}">
+    <div class="fa ${channel.currentState == 'playing' ?  'fa-play' : ''} ${channel.currentState == 'stopped' ?  'fa-stop' : ''} ${channel.currentState == 'paused' ?  'fa-pause' : ''}"></div>
+    <div>${channel.name}</div>
+  </button>
  </nav>
   <div id="content">
-    <div id="control-panels">
+    <div id="control-panels" show.bind="showChannels">
       <control-panel repeat.for="channel of channels" channel.bind="channel" cnumber.bind="$index"></control-panel>
     </div>
+    <media-library channels.bind="channels" selected-channel.two-way="selectedChannel" show.bind="showLibrary"></media-library>
+    <queue channels.bind="channels" selected-channel.two-way="selectedChannel" show.bind="showQueue"></queue>
+    <playlists channels.bind="channels" selected-channel.two-way="selectedChannel" show.bind="showPlaylists"></playlists>
+    <stream channels.bind="channels" selected-channel.two-way="selectedChannel" show.bind="showStream"></stream>
   </div>
 </template>

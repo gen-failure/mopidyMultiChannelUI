@@ -6,6 +6,7 @@ export class Channel {
     this.wsURL = params.wsURL;
     this.ws = null;
     
+    this.currentState = 'stopped';
     this.isPlaying = false;
     this.isPaused = false;
     this.isStopped = false;
@@ -18,6 +19,13 @@ export class Channel {
     this.timePosition = 0;
     this.seeking = false;
     this.volume = 0;
+
+    this.nextTrack = null;
+    this.prevTrack = null;
+
+    this.title = "";
+
+    this.playlists = [];
     
     this.connect();
   }
@@ -30,7 +38,7 @@ export class Channel {
       });
       this.ws.on(this.onEvent.bind(this));
       //TODO: Find the access to ws or fix it in mopidy way
-      //this.ws.websocket.onclose = this.onClose;
+      this.ws.onclose = this.onClose;
     } catch(e) {
       console.log(e);
     }
@@ -44,7 +52,12 @@ export class Channel {
         break;
       case 'event:trackPlaybackStarted':
         this.currentTrack = data.tl_track.track;
+        this.getNextTrack();
+        this.getPrevTrack();
         this.changeState('playing');
+        break;
+      case 'event:trackPlaybackEnded':
+        console.log('YES!!!! I DO EXIST!!!!!!');
         break;
       case 'event:trackPlaybackResumed':
         this.changeState('playing');
@@ -53,9 +66,10 @@ export class Channel {
         this.changeState('paused');
         break;
       case 'event:tracklistChanged':
-        //TODO : Update tracklist
+        this.updateTracklist();
         break;
       case 'event:volumeChanged':
+        console.log('new volume ' + data.volume);
         this.volume=data.volume;
         break;
       case 'event:playbackStateChanged':
@@ -68,29 +82,36 @@ export class Channel {
         this.changeState('disconnect');
         break;
       case 'event:seeked':
-        console.log('seeked');
         this.timePosition = data.time_position;
+        break;
+      case 'event:playlistDeleted':
+        this.getPlaylists();
+        break;
+      case 'event:playlistChanged':
+        this.getPlaylists();
+        break;
+      case 'event: streamTitlechanged':
+        this.title = data.title;
       default:
         console.log(event);
+        console.log(data);
     }
   }
 
   init() {
+    console.log('initializing channel');
     this.updateTracklist();
     this.getVolume();
     this.ws.playback.getState().then((d) => {
       this.changeState(d);
     });
-
+    this.getPlaylists();
   }
 
   updateTracklist() {
-    this.ws.tracklist.getTracks().then((d) => {
-      if (Array.isArray(d)) {
-        this.tracks = d;
-      } else {
-        this.tracks = [];
-      }
+    this.ws.tracklist.getTlTracks().then((d) => {
+      console.log(d);
+      this.tracklist = d;
     });
   }
 
@@ -99,7 +120,26 @@ export class Channel {
     console.log('track updating');
     this.ws.playback.getCurrentTrack({}).then((d) => {
       this.currentTrack = d;
-    })
+    });
+  }
+
+  getPrevTrack() {
+    this.ws.tracklist.previousTrack({'tl_track' : null}).then((d) => {
+        this.prevTrack = d;
+      });
+  }
+
+  getNextTrack() {
+    this.ws.tracklist.nextTrack({'tl_track' : null}).then((d) => {
+      this.nextTrack = d;
+    });
+
+  }
+
+  getPlaylists() {
+    this.ws.playlists.getPlaylists({}).then((d) => {
+    this.playlists = d;
+    });
   }
 
   getVolume() {
@@ -134,12 +174,12 @@ export class Channel {
   getTimePosition() {
     console.log('Updating time position');
     this.ws.playback.getTimePosition().then((d) => {
-      console.log(d);
       this.timePosition = d;
     });
   }
 
   updateSeek(v) {
+    console.log(v);
     this.seeking = true;
     console.log('seeking to: ' + this.timePosition);
     console.log('maxValue: ' + this.getCurrentTrackLength());
@@ -155,6 +195,8 @@ export class Channel {
   }
 
   changeState(state) {
+    this.currentState = state;
+
     this.isPlaying = false;
     this.isPaused = false;
     this.isStopped = false;
@@ -163,11 +205,17 @@ export class Channel {
         this.isPaused = true;
         this.getCurrentTrack();
         this.getTimePosition();
+        this.getNextTrack();
+        this.getPrevTrack();
+        this.getPlaylists();
         break;
       case 'playing':
         this.isPlaying = true;
         this.getCurrentTrack();
         this.getTimePosition();
+        this.getNextTrack();
+        this.getPrevTrack();
+        this.getPlaylists();
         break;
       case 'stopped':
         this.isStopped=true;
@@ -187,6 +235,7 @@ export class Channel {
   }
 
   onClose() {
+    console.log('closed');
     this.connected = false;
   }
 
@@ -196,8 +245,8 @@ export class Channel {
   }
 
   tick() {
-    //FIXME: It would be nice to teach Aurelia to use 
-    console.log('tick');
-    if(this.isPlaying && !this.seeking) this.timePosition = parseInt(this.timePosition) + 1000;
+    if(this.isPlaying && !this.seeking) {
+      this.timePosition = parseInt(this.timePosition) + 1000;
+    }
   }
 }

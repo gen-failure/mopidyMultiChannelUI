@@ -1,0 +1,23 @@
+<template>
+  <require from="./resources/value-converters/int-to-str"></require>
+
+  <div id="p-layout" class="component-layout"></div>
+  <header id="p-header">
+    <select value.bind="selectedChannel | intToStr">
+      <option repeat.for="channel of channels" value.one-way="$index | intToStr">${channel.name}</option>
+    </select>
+  </header>
+  <section id="p-content">
+    <ul class="itemlist">
+      
+      <li repeat.for="playlist of channels[selectedChannel].playlists">
+        <button class="fa fa-remove" style="float:left;color:#f00;border-color:#f00;margin-right:2px;" click.trigger="remove(playlist.uri)"></button>
+        <button class="fa fa-play" style="float:left;${item.track.uri == channels[selectedChannel].currentTrack.uri ? 'color:#ff9;border-color:#ff9;' : ''}" click.trigger="play(playlist.uri)"></button>
+        <span>${playlist.name}</span>
+      </li>
+    </ul>
+  </section>
+  <footer id="p-footer">
+    Footer
+  </footer>
+</template>

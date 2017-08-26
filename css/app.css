@@ -5,18 +5,19 @@
 
 body {
   background-color:black;
-  color:#dfe;
+  color:#99ccff;
+  font-family:Helvetica;
 }
 
 #sidebar{
-  border-right:1px solid #dfe;
   height:100vh;
   width:200px;
+  padding:4px;
 }
 
 #content {
-  padding-left:200px;
-  margin:auto;
+  width:100%;
+  height:100%;
 }
 @media (min-width: 550px) { /*Skeletons default grid-activation width*/
   #sidebar{
@@ -33,16 +34,27 @@ control-panel {
   padding-top:4px;
 }
 
-nav {
-  padding:4px;
-}
-
 nav > button {
   width:100%;
   text-align:left;
   font-size:24px;
-  margin-top:1px;
-  margin-bottom:1px;
+
+  margin-bottom:3px;
+  margin-top:3px;
+}
+
+nav > button.active {
+  color:#ff9900;
+  border-color:#ff9900;
+}
+
+nav > button:nth-child(1) {
+  margin-top:0px;
+}
+
+nav > button > div {
+  padding-top:5px;
+  padding-bottom:5px;
 }
 
 nav > button > div:nth-child(1) {
@@ -50,14 +62,13 @@ nav > button > div:nth-child(1) {
 }
 
 nav > button > div:nth-child(2) {
-  padding-top:12px;
-  padding-left:56px;
+  padding-left:32px;
 }
 
 button {
-  border: 1px solid #9999ff;
+  border: 1px solid #99ccff;
   background-color:black;
-  color:#9999ff;
+  color:#99ccff;
 }
 
 control-panel > div {
@@ -88,16 +99,183 @@ control-panel div.toolbar {
 
 div.led {
   font-family: ccalc;
-  font-size:52px;
-  height:58px;
+  font-size:38px;
+  height:42px;
   padding:4px;
-  color: #cc6699;
-  border: 1px #9999ff solid;
+  color: #ff3300;
+  border: 1px #99ccff solid;
   background-image:url('../images/lcd.png');
+  overflow: hidden;
 
   /* text-shadow: 0 0 1px #fff, 0 0 3px #fff, 0 0 5px #fff, 0 0 7px #ff00de, 0 0 12px #ff00de, 0 0 27px #ff00de, 0 0 25px #ff00de; */
 }
 
 .seeker {
   width:auto;
+}
+
+.listbox {
+  display:block;
+}
+header {
+  display:block;
+  width:100%;
+  height:50px;
+}
+
+header button {
+  border: 1px #59f solid;
+  padding:6px;
+  margin-top:2px;
+  margin-left:2px;
+  float:left;
+}
+
+header > button > div:nth-child(2) {
+  font-size:24px;
+}
+header select {
+  border-radius: 0px;
+  float:left;
+  background-color:black;
+  color:#59f;
+  border: 1px solid #59f;
+  font-size:24px;
+  margin-top:2px;
+  padding:7px;
+  padding-bottom:8px;
+  margin-left:2px;
+}
+
+section.object-list {
+  padding-top:0px;
+  top:0px;
+}
+
+ul.itemlist {
+  list-style-type:none;
+  padding-left:0px;
+  display:block;
+  height:100%;
+  margin:2px;
+  margin-top:0px;
+  margin-bottom:0px;
+}
+ul.itemlist > li {
+  display:block;
+  color:#99ccff;
+  font-size:20px !important; 
+  padding:8px;
+  border: #99ccff 1px solid;
+  margin-top:1px;
+  margin-bottom:1px;
+}
+
+ul.itemlist > li.active {
+  display:block;
+  color:#ff9;
+  font-size:20px !important; 
+  padding:8px;
+  border: #ff9 1px solid;
+  margin-top:1px;
+  margin-bottom:1px;
+}
+.type-track {
+  color:#ffff99 !important;
+  border-color:#ffff99 !important;
+}
+
+/* Extra button colors */
+
+.button2 {
+  border-color:#cc6699 !important;
+  color:#cc6699 !important;
+}
+
+.button3 {
+  border-color:#99ccff;
+  color:#99ccff;
+}
+
+.button4 {
+  border-color:#c66;
+  color:#c66;
+}
+
+button:disabled {
+  color:#999;
+  border-color:#999 !important;
+}
+
+.channel-state-playing {
+  border:#00ff00 1px solid;
+  color:#00ff00;
+}
+
+.channel-state-paused {
+  border:#ffff00 1px solid;
+  color:#ffff00;
+}
+
+.channel-state-stopped {
+  border:#ff0000 1px solid;
+  color:#ff0000;
+}
+
+
+/* w2ui hotfix */
+media-library {
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+playlists {
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+stream {
+  display:block;
+  width:100%;
+  height:100%;
+}
+
+.component-layout {
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0px;
+  left:0px;
+
+}
+
+div[ref="keyboard"] > div > button {
+  font-size:22px;
+  padding:26px;
+  width:70px;
+  height:70px!;
+  margin:2px;
+  font-family:monospace;
+}
+
+div[ref=keyboard] > div > button[data-code="32"] {
+  width:235px;
+}
+
+div[ref=keyboard] > div > button[data-code="8"] {
+  padding-top:24px;
+}
+
+input[ref=newPlaylistName] {
+  background-color:black;
+  font-size:28px;
+  width:855px;
+}
+
+input[ref=streamURL] {
+  background-color:black;
+  font-size:28px;
+  width:855px;
 }

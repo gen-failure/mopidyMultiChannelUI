@@ -10,11 +10,26 @@ export class App {
       this.init();
     });
   }
-
+  
+  attached() {
+    var pstyle = 'background-color:black;';
+    $('#main').w2layout({
+      name: 'layout',
+      panels: [
+        { type: 'left', size: 200, style: pstyle, content: $('nav#sidebar') },
+        { type: 'main', style: pstyle, content: $('div#content') }
+      ]
+   });
+   window.setTimeout(() => {
+     //$(window).trigger('resize');
+   }, 1000);
+  }
   init() {
     this.showChannels = true;
-    this.showPlaylist = false;
+    this.showPlaylists = false;
     this.showLibrary = false;
+    this.showQueue = false;
+    this.showStream = false;
     this.selectedChannel = 0;
 
     this.channels = [];
@@ -31,14 +46,42 @@ export class App {
     },1000);
   }
 
-  showMediaLibrary(i) {
-    console.log(i);
-    this.showChannels = false;
-    this.showPlaylist = false;
+  showMediaLibrary() {
+    this.uiOff();
     this.showLibrary = true;
+    //FIXME: Ugly hack, to be sure the media library layout is always fine
+    $(window).trigger('resize');
+  }
+  doShowQueue() {
+    this.uiOff();
+    this.showQueue = true;
+    //FIXME: Ugly hack, to be sure the media library layout is always fine
+    $(window).trigger('resize');
+  }
+  
+  showAllPlaylists() {
+    
+    this.uiOff();
+    this.showPlaylists = true;
+    $(window).trigger('resize');
+  }
 
-    console.log(this.channels[0]);
-    window.c = this.channels[0].ws;
-    this.channels[0].browseLibrary(console.log);
+  showAllChannels() {
+    this.uiOff();
+    this.showChannels = true;
+  }
+
+  doShowStream() {
+    this.uiOff();
+    this.showStream = true;
+    $(window).trigger('resize')
+  }
+
+  uiOff() {
+    this.showQueue = false
+    this.showChannels = false;
+    this.showPlaylists = false;
+    this.showLibrary = false;
+    this.showStream = false;
   }
 }

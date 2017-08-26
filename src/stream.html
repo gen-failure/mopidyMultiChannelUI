@@ -1,0 +1,23 @@
+<template>
+  <require from="./resources/value-converters/uri-to-str"></require>
+  <require from="./resources/value-converters/int-to-str"></require>
+  <require from="./resources/elements/keyboard"></require>
+
+  <div id="s-layout" class="component-layout">
+  </div>
+  <header id="s-header">
+    <button click.trigger="openStream()" disabled.bind="false" class="button2">
+      <div class="fa fa-spotify fa-2x" style="float:left;"></div>
+      <div style="float:left;">Open</div>
+    </button>
+    <select value.bind="selectedChannel | intToStr" change.trigger="selectChannel()">
+      <option repeat.for="channel of channels" value.one-way="$index | intToStr">${channel.name}</option>
+    </select>
+  </header>
+  <div id="s-content">
+    <input type="text" ref="streamURL" class="button2"></input>
+    <keyboard target-input.bind="streamURL"></input>
+  </div>
+  <footer id="s-footer">
+  </footer>
+</template>

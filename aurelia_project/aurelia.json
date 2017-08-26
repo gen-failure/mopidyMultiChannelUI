@@ -120,6 +120,7 @@
           "aurelia-templating-binding",
           "text",
           "jquery",
+          "w2ui",
           {
             "name": "aurelia-templating-resources",
             "path": "../node_modules/aurelia-templating-resources/dist/amd",

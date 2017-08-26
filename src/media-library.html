@@ -1,3 +1,36 @@
 <template>
-  <h1>${channels}</h1>
+  <require from="./resources/value-converters/uri-to-str"></require>
+  <require from="./resources/value-converters/int-to-str"></require>
+  <div id="ml-layout" class="component-layout">
+  </div>
+  <header id="ml-header">
+    <button click.trigger="goBack()" disabled.bind="!canGoBack">
+      <div class="fa fa-arrow-circle-left fa-2x" style="float:left;"></div>
+      <div style="float:left;">Back</div>
+    </button>
+    <select id="ml-channels-select" value.bind="selectedChannel | intToStr" change.trigger="selectChannel()">
+      <option repeat.for="channel of channels" value.one-way="$index | intToStr">${channel.name}</option>
+    </select>
+    <button if.bind="hasMusic">
+      <div class="fa fa-play fa-2x" style="float:left;"></div>
+      <div style="float:left;" click.trigger="addTracks(true)">Play all</div>
+    </button>
+    <button if.bind="hasMusic">
+      <div class="fa fa-plus fa-2x" style="float:left;"></div>
+      <div style="float:left;" click.trigger="addTracks(false)">Add all</div>
+    </button>
+    <div><span style=";">${paths[paths.length-1] | uriToStr}</span></div>
+  </header>
+  <section id="ml-content">
+    <ul class="itemlist">
+      <li repeat.for="item of list" click.trigger="itemClick(item)" class="type-${item.type}">
+          <span class.bind="getClass(item.type)"></span>
+          <span style="padding-left:5px;overflow:hidden;">${item.name}</span>
+          <button class="fa fa-play type-track" style="float:right;margin-left:5px;" show.bind="item.type == 'track'"></button>
+          <button class="fa fa-plus type-track" style="float:right;" show.bind="item.type == 'track'"></button>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <footer id="ml-foot">Placeholder</footer>
 </template>

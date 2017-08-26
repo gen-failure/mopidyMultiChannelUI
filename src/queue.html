@@ -1,0 +1,42 @@
+<template>
+  <require from="./resources/value-converters/int-to-str"></require>
+  <require from="./resources/elements/keyboard"></require>
+  <div id="qlayout">
+  </div>
+  <header id="q-header">
+    <button show.bind="!showSaveScreen" class="button4" click.trigger="clear()">
+      <div class="fa fa-remove fa-2x" style="float:left;"></div>
+      <div style="float:left;">Clear</div>
+    </button>
+   <select id="ml-channels-select" value.bind="selectedChannel | intToStr" show.bind="!showSaveScreen">
+     <option repeat.for="channel of channels" value.one-way="$index | intToStr">${channel.name}</option>
+   </select>
+   <button show.bind="!showSaveScreen" click.trigger="toggleSaveScreen()">
+     <div class="fa fa-save fa-2x" style="float:left;"></div>
+     <div style="float:left;">Save to Playlist</div>
+   </button>
+   
+   <button show.bind="showSaveScreen" click.trigger="save()">
+      <div class="fa fa-save fa-2x" style="float:left;"></div> 
+      <div style="float:left;">Save</div>
+   </button>
+   
+   <button show.bind="showSaveScreen" class="button4">
+      <div class="fa fa-remove fa-2x" style="float:left;"></div> 
+      <div style="float:left;">Cancel</div>
+   </button>
+  </header>
+  <section id="q-content">
+    <ul class="itemlist" show.bind="!showSaveScreen">
+      <li repeat.for="item of channels[selectedChannel].tracklist" class="${item.track.uri == channels[selectedChannel].currentTrack.uri ? 'active' : ''}" >
+        <button class="fa fa-remove" style="float:left;color:#f00;border-color:#f00;margin-right:2px;" click.trigger="remove(item.tlid)"></button>
+        <button class="fa fa-play" style="float:left;${item.track.uri == channels[selectedChannel].currentTrack.uri ? 'color:#ff9;border-color:#ff9;' : ''}" click.trigger="play(item.tlid)"></button>
+        <span>${item.track.name}</span>
+      </li>
+    </ul>
+    <div show.bind="showSaveScreen">
+      <input type="text" class="button2" ref="newPlaylistName" />
+      <keyboard target-input.bind="newPlaylistName"></keyboard>
+    </div>
+  </section>
+</template>
