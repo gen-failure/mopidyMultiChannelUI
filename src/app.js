@@ -3,6 +3,7 @@ import {MediaLibrary} from 'media-library'
 import {ControlPanel} from 'control-panel'
 
 export class App {
+
   constructor() {
 
     $.getJSON('./src/config.json',(d) => {
@@ -31,6 +32,9 @@ export class App {
     this.showQueue = false;
     this.showStream = false;
     this.selectedChannel = 0;
+
+    this.showHomeButton = this.config.showHomeButton;
+    this.showBackButton = this.config.showBackButton;
 
     this.channels = [];
     this.config['channels'].forEach((c) => {
@@ -87,5 +91,9 @@ export class App {
 
   goHome() {
     document.location.href='about:home';
+  }
+
+  goBack() {
+    window.history.back();
   }
 }

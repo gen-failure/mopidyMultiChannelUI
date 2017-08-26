@@ -9,9 +9,13 @@
    
  </section>
  <nav id="sidebar">
-   <button class="button2" click.trigger="goHome()">
+   <button class="button2" click.trigger="goHome()" show.bind="showHomeButton">
      <div class="fa fa-home"></div>
      <div>Home</div>
+   </button>
+   <button class="button2" click.trigger="goBack()" show.bind="showBackButton">
+     <div class="fa fa-arrow-left"></div>
+     <div>Back</div>
    </button>
    <button class="button3 ${showChannels ? 'active' : ''}" click.trigger="showAllChannels()">
      <div class="fa fa-tachometer"></div>
