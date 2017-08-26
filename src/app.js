@@ -84,4 +84,8 @@ export class App {
     this.showLibrary = false;
     this.showStream = false;
   }
+
+  goHome() {
+    document.location.href='about:home';
+  }
 }
