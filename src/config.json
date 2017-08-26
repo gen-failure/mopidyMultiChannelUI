@@ -1,8 +1,13 @@
 {
   "channels" : [
     {
-      "name" : "Channel #1",
-      "wsURL" : "localhost:6680/mopidy/ws/"
+      "name" : "Channel#1",
+      "wsURL" : "1.1.1.100:6681/mopidy/ws/"
+    },
+    {
+      "name" : "Channel#2",
+      "wsURL" : "1.1.1.100:6682/mopidy/ws/"
     }
+
   ]
 }
