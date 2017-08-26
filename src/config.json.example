@@ -9,5 +9,7 @@
       "wsURL" : "1.1.1.100:6682/mopidy/ws/"
     }
 
-  ]
+  ],
+  "showHomeButton" : false,
+  "showBackButton" : false
 }
