@@ -163,43 +163,71 @@ ul.itemlist {
 }
 ul.itemlist > li {
   display:block;
-  color:#99ccff;
-  font-size:20px !important; 
-  padding:8px;
-  border: #99ccff 1px solid;
+  color:#9cf;
+  width:100%;
+  height:40px;
   margin-top:1px;
   margin-bottom:1px;
 }
 
-ul.itemlist > li.active {
+ul.itemlist > li > button {
   display:block;
+  float:right;
+  height:40px;
+  width:40px;
+}
+
+ul.itemlist > li > div {
+  height:40px;
+  float:left;
+  font-size:32px;
+  width:100%;
+  border: 1px solid #9cf;
+  padding-left:2px;
+}
+
+ul.itemlist > li > div.c1 {
+  width: calc(100% - 41px);
+}
+
+ul.itemlist > li > div.c2 {
+  width: calc(100% - 82px);
+}
+
+ul.itemlist > li.active > div {
   color:#ff9;
-  font-size:20px !important; 
-  padding:8px;
-  border: #ff9 1px solid;
-  margin-top:1px;
-  margin-bottom:1px;
+  border-color:#ff9;
 }
 .type-track {
-  color:#ffff99 !important;
-  border-color:#ffff99 !important;
+  color:#ff9 !important;
+  border-color:#ff9 !important;
+}
+
+.type-track > div {
+  color:#ff9 !important;
+  border-color:#ff9 !important;
 }
 
 /* Extra button colors */
 
 .button2 {
-  border-color:#cc6699 !important;
-  color:#cc6699 !important;
+  border-color:#c69 !important;
+  color:#c69 !important;
 }
 
 .button3 {
-  border-color:#99ccff;
-  color:#99ccff;
+  border-color:#9cf!important;
+  color:#9cf!important;
 }
 
 .button4 {
-  border-color:#c66;
-  color:#c66;
+  border-color:#c66!important;
+  color:#c66!important;
+}
+
+.button5 {
+  border-color:#96f!important;
+  color:#96f!important;;
 }
 
 button:disabled {
@@ -255,7 +283,7 @@ div[ref="keyboard"] > div > button {
   font-size:22px;
   padding:26px;
   width:70px;
-  height:70px!;
+  height:70px;
   margin:2px;
   font-family:monospace;
 }
