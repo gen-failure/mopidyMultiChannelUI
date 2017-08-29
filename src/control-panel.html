@@ -3,7 +3,7 @@
   <require from="./resources/value-converters/int-to-str"></require>
   <div>
     <h2>${channel.name}</h2>
-    <div class="led" style="margin-bottom:4px;">${channel.currentTrack.name}</div>
+    <div class="led" style="margin-bottom:4px;">${channel.title}</div>
     <input type="range" min=0 max.one-way="channel.currentTrack.length | intToStr" class="seeker" value.bind="channel.timePosition | intToStr" change.trigger="channel.updateSeek()" step=1000></input>
     <div class="toolbar">
       <button class="fa fa-backward fa-4x" click.trigger="backward()" disabled.bind="channel.prevTrack == null"></button>

@@ -52,6 +52,7 @@ export class Channel {
         break;
       case 'event:trackPlaybackStarted':
         this.currentTrack = data.tl_track.track;
+        this.title = this.currentTrack.name;
         this.getNextTrack();
         this.getPrevTrack();
         this.changeState('playing');
@@ -90,8 +91,9 @@ export class Channel {
       case 'event:playlistChanged':
         this.getPlaylists();
         break;
-      case 'event: streamTitlechanged':
+      case 'event:streamTitleChanged':
         this.title = data.title;
+        console.log(data.title);
       default:
         console.log(event);
         console.log(data);
@@ -120,6 +122,7 @@ export class Channel {
     console.log('track updating');
     this.ws.playback.getCurrentTrack({}).then((d) => {
       this.currentTrack = d;
+      this.title = d.name;
     });
   }
 
