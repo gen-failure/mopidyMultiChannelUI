@@ -29,7 +29,6 @@ export class Channel {
     
     this.connect();
   }
-
   connect() {
     try {
       this.ws = new Mopidy({
@@ -43,7 +42,6 @@ export class Channel {
       console.log(e);
     }
   }
-
   onEvent(event,data) {
     switch(event) {
       case 'state:online':
@@ -99,7 +97,6 @@ export class Channel {
         console.log(data);
     }
   }
-
   init() {
     console.log('initializing channel');
     this.updateTracklist();
@@ -109,14 +106,12 @@ export class Channel {
     });
     this.getPlaylists();
   }
-
   updateTracklist() {
     this.ws.tracklist.getTlTracks().then((d) => {
       console.log(d);
       this.tracklist = d;
     });
   }
-
   //Check if this is really needed
   getCurrentTrack() {
     console.log('track updating');
@@ -125,26 +120,21 @@ export class Channel {
       this.title = d.name;
     });
   }
-
   getPrevTrack() {
     this.ws.tracklist.previousTrack({'tl_track' : null}).then((d) => {
         this.prevTrack = d;
       });
   }
-
   getNextTrack() {
     this.ws.tracklist.nextTrack({'tl_track' : null}).then((d) => {
       this.nextTrack = d;
     });
-
   }
-
   getPlaylists() {
     this.ws.playlists.getPlaylists({}).then((d) => {
     this.playlists = d;
     });
   }
-
   getVolume() {
     this.ws.mixer.getVolume({}).then((d) => {
       console.log('volume from server: ');
@@ -152,7 +142,6 @@ export class Channel {
       this.volume = d;
     });
   }
-
   setVolume() {
     this.ws.mixer.setVolume({volume : this.volume}).then((d) => {
       if (d === false) {
@@ -160,7 +149,6 @@ export class Channel {
       }
     });
   }
-
   getCurrentTrackLength() {
     if (this.currentTrack != null) {
       return this.currentTrack.length;
@@ -168,19 +156,16 @@ export class Channel {
       return 0;
     }
   }
-
   //Giving aurelia direct acess to the var ends by getting and string instead of integer
   readTimePosition(v) {
     return this.timePosition;
   }
-
   getTimePosition() {
     console.log('Updating time position');
     this.ws.playback.getTimePosition().then((d) => {
       this.timePosition = d;
     });
   }
-
   updateSeek(v) {
     console.log(v);
     this.seeking = true;
@@ -196,10 +181,8 @@ export class Channel {
       }
     })
   }
-
   changeState(state) {
     this.currentState = state;
-
     this.isPlaying = false;
     this.isPaused = false;
     this.isStopped = false;
@@ -227,26 +210,21 @@ export class Channel {
         console.log('WARNING: Unknown state ' + state);
     }
   }
-
   pause() {
     this.ws.playback.pause({}).then((d) => {
     });;
   }
-
   resume() {
     this.ws.playback.resume({}).then((d) => {});
   }
-
   onClose() {
     console.log('closed');
     this.connected = false;
   }
-
   browseLibrary(cb) {
     var o = {uri : null}
     this.ws.library.browse(o).then(cb);
   }
-
   tick() {
     if(this.isPlaying && !this.seeking) {
       this.timePosition = parseInt(this.timePosition) + 1000;
