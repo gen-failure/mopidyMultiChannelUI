@@ -29,11 +29,11 @@ export class Queue {
 
   play(id) {
     console.log(id)
-    this.channels[this.selectedChannel].ws.playback.play({tlid : id});
+    this.channels[this.selectedChannel].mopidyCall('playback','play',{tlid : id});
   }
 
   remove(id) {
-    this.channels[this.selectedChannel].ws.tracklist.remove({criteria : {tlid : [id]}});
+    this.channels[this.selectedChannel].mopidyCall('tracklist','remove',{criteria : {tlid : [id]}});
   }
 
   save() {

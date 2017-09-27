@@ -24,7 +24,6 @@ export class Channel {
     this.prevTrack = null;
 
     this.title = "";
-
     this.playlists = [];
     
     this.connect();
@@ -72,9 +71,7 @@ export class Channel {
         this.volume=data.volume;
         break;
       case 'event:playbackStateChanged':
-        this.ws.playback.getState().then((s) => {
-          this.changeState(s);
-        });
+          this.changeState(data.new_state);
         break;
       case 'state:offline':
         this.connected = false;
@@ -101,53 +98,47 @@ export class Channel {
     console.log('initializing channel');
     this.updateTracklist();
     this.getVolume();
-    this.ws.playback.getState().then((d) => {
+
+    this.mopidyCall('playback','getState',{},(d) => {
       this.changeState(d);
-    });
+    })
     this.getPlaylists();
   }
   updateTracklist() {
-    this.ws.tracklist.getTlTracks().then((d) => {
+    this.mopidyCall('tracklist','getTlTracks', {},(d) => {
       console.log(d);
       this.tracklist = d;
     });
   }
   //Check if this is really needed
   getCurrentTrack() {
-    console.log('track updating');
-    this.ws.playback.getCurrentTrack({}).then((d) => {
+    this.mopidyCall('playback','getCurrentTrack',{},(d) => {
       this.currentTrack = d;
       this.title = d.name;
     });
   }
   getPrevTrack() {
-    this.ws.tracklist.previousTrack({'tl_track' : null}).then((d) => {
+    this.mopidyCall('tracklist','previousTrack',{'tl_track' : null},(d) => {
         this.prevTrack = d;
       });
   }
   getNextTrack() {
-    this.ws.tracklist.nextTrack({'tl_track' : null}).then((d) => {
+    this.mopidyCall('tracklist','nextTrack',{'tl_track' : null},(d) => {
       this.nextTrack = d;
     });
   }
   getPlaylists() {
-    this.ws.playlists.getPlaylists({}).then((d) => {
+    this.mopidyCall('playlists','getPlaylists',{},(d) => {
     this.playlists = d;
     });
   }
   getVolume() {
-    this.ws.mixer.getVolume({}).then((d) => {
-      console.log('volume from server: ');
-      console.log(d);
+    this.mopidyCall('mixer','getVolume',{},(d) => {
       this.volume = d;
     });
   }
   setVolume() {
-    this.ws.mixer.setVolume({volume : this.volume}).then((d) => {
-      if (d === false) {
-        //FIXME: There should be a way how to notify user that command was actually rejected
-      }
-    });
+    this.mopidyCall('mixer', 'setVolume', {volume:this.volume},(d) => {}) 
   }
   getCurrentTrackLength() {
     if (this.currentTrack != null) {
@@ -161,24 +152,16 @@ export class Channel {
     return this.timePosition;
   }
   getTimePosition() {
-    console.log('Updating time position');
-    this.ws.playback.getTimePosition().then((d) => {
+    this.mopidyCall('playback','getTimePosition',{},(d) => {
       this.timePosition = d;
     });
   }
   updateSeek(v) {
-    console.log(v);
     this.seeking = true;
-    console.log('seeking to: ' + this.timePosition);
-    console.log('maxValue: ' + this.getCurrentTrackLength());
-    this.ws.playback.seek({time_position: parseInt(this.timePosition)}).then((d) => {
+    
+    this.mopidyCall('playback','seek',{time_position: parseInt(this.timePosition)},(d) => {
       this.seeking = false
-      if (d == false) {
-        //FIXME: Show error should be show to user
-        this.ws.playback.getTimePositioin((d) => {
-          this.timePosition = d;
-        });
-      }
+      this.getTimePosition(); //FIXME --only in case of error?
     })
   }
   changeState(state) {
@@ -211,11 +194,10 @@ export class Channel {
     }
   }
   pause() {
-    this.ws.playback.pause({}).then((d) => {
-    });;
+    this.mopidyCall('playback','pause',{},(d) => {});
   }
   resume() {
-    this.ws.playback.resume({}).then((d) => {});
+    this.mopidyCall('playback','resume',{},(d) => {});
   }
   onClose() {
     console.log('closed');
@@ -223,7 +205,26 @@ export class Channel {
   }
   browseLibrary(cb) {
     var o = {uri : null}
-    this.ws.library.browse(o).then(cb);
+    this.mopidyCall('library','browse',o,cb);
+  }
+  mopidyCall(target,method,params,callback=(d) => {}) {
+    var func = this.ws[target][method];
+
+    if (typeof func == 'function') {
+      if (document.getElementById('loadingScreen')) { 
+        document.getElementById('loadingScreen').style.zIndex=999;
+        document.getElementById('loadingScreen').style.display='block';
+      }
+      func.call(this, params).then((d) => {
+        callback(d);
+        if (document.getElementById('loadingScreen')) {
+          document.getElementById('loadingScreen').style.zIndex=0;
+          document.getElementById('loadingScreen').style.display='none';
+        }
+      })
+    } else {
+      //FIXME: This should do something
+    }
   }
   tick() {
     if(this.isPlaying && !this.seeking) {
